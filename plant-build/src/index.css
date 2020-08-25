@@ -16,7 +16,8 @@ code {
   box-sizing: border-box;
 }
 body {
-  background: rgb(79,113,62) !important;
+  background-image: linear-gradient(to right, darkslategray , darkslategray);
+  
   min-height: 100vh;
   display: flex;
   font-weight: 400;
@@ -69,6 +70,40 @@ body, html, .App, #root, .auth-wrapper {
   padding-bottom: 20px;
 }
 
+
+
+.auth-inner1 {
+  width: 60%;
+  margin: 400;
+  background: white;
+  box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+  padding: 40px 55px 45px 55px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  transition: all .3s;
+}
+
+.auth-wrapper1 .form-control:focus {
+  border-color: rgb(79,113,62);
+  box-shadow: none;
+}
+
+.auth-wrapper1 h3 {
+  text-align: center;
+  margin: 0;
+  line-height: 1;
+  padding-bottom: 20px;
+}
+
+.custom-control-label {
+  font-weight: 600;
+}
+
+
+
+
+
+
 .custom-control-label {
   font-weight: 600;
 }
@@ -88,4 +123,17 @@ body, html, .App, #root, .auth-wrapper {
 
 .error-login {
   color: rgba(255, 0, 0, 0.534);
+}
+
+.container1 {
+  display: flex;
+  flex-direction: row;
+  width:60%;
+  background-color: rgba(34, 35, 58, 0.2);
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+}
+
+.container1:hover {
+  font-size: large;
 }

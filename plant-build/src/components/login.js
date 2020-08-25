@@ -4,7 +4,7 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
 const Login = props => {
 
     const [credentials, setCredentials] = useState(
-        {email:'', password: ''}
+        {Username:'', password: ''}
     );
     const [error, setError] = useState(false);
 
@@ -32,16 +32,16 @@ const Login = props => {
 
     return (
         <form onSubmit={loginSubmit}>
-            <h3>Sign In</h3>
+            <h3>LogIn</h3>
 
             <div className="form-group">
-                <label>Email address</label>
+                <label>Username</label>
                 <input 
-                name="email"
+                name="Username"
                 type="text" 
                 className="form-control" 
-                placeholder="Enter email" 
-                value={credentials.email}
+                placeholder="Enter Username" 
+                value={credentials.Username}
                 onChange={handleChanges}/>
             </div>
 
@@ -67,7 +67,7 @@ const Login = props => {
             <p className="forgot-password text-right">
                 Forgot <a href="#">password?</a>
             </p>
-            {error ? <p className='error-login'>Wrong email or password - Try again.</p> : null}
+            {error ? <p className='error-login'>Wrong Username or password - Please Try again.</p> : null}
         </form>
     );
 }
