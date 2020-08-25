@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 export const axiosWithAuth = () => {
-    console.log('localStorage', localStorage)
     const token = localStorage.getItem('authToken');
+    console.log('localStorage', localStorage)
     return axios.create({
-        baseURL: `http://localhost:5000/api`,
+        baseURL: `https://watermyplants2020.herokuapp.com/api`,
         headers: {
-            Authorization: token
+            Authorization: `Bearer ${token}`
         }
     });
 };
