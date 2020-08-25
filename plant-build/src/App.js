@@ -67,9 +67,13 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
-            <Route exact path='/myprofile' component={Profile} />
-            <Route path="/Profile" component={ItemAdd} />
-            <Route path="/Editprofile" component={Editprofile} />
+            <Route path='/myprofile' component={Profile}>
+            <Profile/>
+            </Route>
+            <Route path="/Profile" component={ItemAdd}>
+            </Route>
+            <Route path="/Editprofile" component={Editprofile}>
+            </Route>
           </Switch>
         </div>
       </div>
