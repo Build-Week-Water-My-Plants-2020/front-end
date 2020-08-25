@@ -10,13 +10,13 @@ const Login = props => {
 
     const handleChanges = e => {
         setCredentials({...credentials, [e.target.name]: e.target.value});
-        console.log('login.js: handleChanges:', e.target.value);
+        // console.log('login.js: handleChanges:', e.target.value);
     };
 
     const loginSubmit = e => {
         e.preventDefault();
         axiosWithAuth()
-        .post('/login', credentials)
+        .post('/api/auth/login', credentials)
         .then(res => {
             console.log('login.js: loginSubmit: axios.post: *success*', res);
             localStorage.setItem('authToken', res.data.payload);
