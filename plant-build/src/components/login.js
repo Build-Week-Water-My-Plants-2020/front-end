@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { connect } from 'react-redux';
+import { postLogin } from '../actions'
 
 const Login = props => {
 
     const [credentials, setCredentials] = useState(
-        {email:'', password: ''}
+        {username:'', password: ''}
     );
     const [error, setError] = useState(false);
 
@@ -15,33 +16,29 @@ const Login = props => {
 
     const loginSubmit = e => {
         e.preventDefault();
-        axiosWithAuth()
-        .post('/api/auth/login', credentials)
+        props.postLogin(credentials)
         .then(res => {
-            console.log('login.js: loginSubmit: axios.post: *success*', res);
-            localStorage.setItem('authToken', res.data.payload);
-            props.history.push('/protected');
+            props.history.push('/myprofile');
             setError(false);
+            setCredentials({username:'', password:''})
         })
         .catch(err => {
-            console.error('login.js: loginSubmit: axios.post: *failure*', err);
-            localStorage.removeItem('authToken');
             setError(true);
         });
     };
 
     return (
         <form onSubmit={loginSubmit}>
-            <h3>Sign In</h3>
+            <h3>LogIn</h3>
 
             <div className="form-group">
-                <label>Email address</label>
+                <label>Username</label>
                 <input 
-                name="email"
+                name="Username"
                 type="text" 
                 className="form-control" 
-                placeholder="Enter email" 
-                value={credentials.email}
+                placeholder="Enter Username" 
+                value={credentials.username}
                 onChange={handleChanges}/>
             </div>
 
@@ -51,7 +48,7 @@ const Login = props => {
                 name='password'
                 type="password" 
                 className="form-control" 
-                placeholder="Enter password" 
+                placeholder="Password" 
                 value={credentials.password}
                 onChange={handleChanges}/>
             </div>
@@ -67,9 +64,9 @@ const Login = props => {
             <p className="forgot-password text-right">
                 Forgot <a href="#">password?</a>
             </p>
-            {error ? <p className='error-login'>Wrong email or password - Try again.</p> : null}
+            {error ? <p className='error-login'>Wrong Username or password - Please Try again.</p> : null}
         </form>
     );
 }
 
-export default Login;
+export default connect(null, {postLogin})(Login)

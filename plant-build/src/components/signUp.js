@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { connect } from 'react-redux';
+import { postRegister } from  '../actions'
 
-export default class SignUp extends Component {
+class SignUp extends Component {
     state = {
         credentials: {
             username: '',
@@ -22,17 +23,11 @@ export default class SignUp extends Component {
 
     signUpSubmit = e => {
         e.preventDefault();
-        axiosWithAuth()
-        .post('/auth/register', this.state.credentials)
+        this.props.postRegister(this.state.credentials)
         .then(res => {
-            console.log('signup.js: loginSubmit: axios.post: *success*', res);
-            localStorage.setItem('authToken', res.data.jwt);
-            this.props.history.push('/protected');
+            this.props.history.push('/myprofile');
+            this.setState({credentials: {username:'', password:'', phonenumber:''}})
         })
-        .catch(err => {
-            console.error('signup.js: loginSubmit: axios.post: *failure*', err);
-            localStorage.removeItem('authToken');
-        });
     };
 
     render() {
@@ -47,7 +42,7 @@ export default class SignUp extends Component {
                     value={this.state.username}
                     type="text" 
                     className="form-control" 
-                    placeholder="Enter username" />
+                    placeholder="Username" />
                 </div>
 
                 {/* <div className="form-group">
@@ -62,13 +57,13 @@ export default class SignUp extends Component {
                 </div> */}
 
                 <div className="form-group">
-                    <label>Phone Number</label>
+                    <label>Phone</label>
                     <input 
                     name='phoneNumber'
                     value={this.state.phonenumber}
                     type="text" 
                     className="form-control" 
-                    placeholder="Enter email" />
+                    placeholder="Phone" />
                 </div>
 
                 <div className="form-group">
@@ -78,7 +73,7 @@ export default class SignUp extends Component {
                     name='password'
                     value={this.state.password}
                     className="form-control" 
-                    placeholder="Enter password" />
+                    placeholder="Password" />
                 </div>
 
                 <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
@@ -89,3 +84,6 @@ export default class SignUp extends Component {
         );
     }
 }
+
+
+export default connect(null, {postRegister})(SignUp)
