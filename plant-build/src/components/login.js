@@ -17,14 +17,14 @@ const Login = props => {
     const loginSubmit = e => {
         e.preventDefault();
         props.postLogin(credentials)
-        .then(res => {
-            props.history.push('/myprofile');
-            setError(false);
-            setCredentials({username:'', password:''})
-        })
-        .catch(err => {
-            setError(true);
-        });
+        // .then(res => {
+        //     props.history.push('/myprofile');
+        //     setError(false);
+        //     setCredentials({username:'', password:''})
+        // })
+        // .catch(err => {
+        //     setError(true);
+        // });
     };
 
     return (
@@ -34,7 +34,7 @@ const Login = props => {
             <div className="form-group">
                 <label>Username</label>
                 <input 
-                name="Username"
+                name="username"
                 type="text" 
                 className="form-control" 
                 placeholder="Enter Username" 
