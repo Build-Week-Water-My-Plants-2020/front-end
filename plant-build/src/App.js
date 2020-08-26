@@ -10,7 +10,7 @@ import ItemAdd from "./components/ItemAdd";
 import Profile from "./components/Plants";
 
 import PrivateRoute from './utils/PrivateRoute';
-
+import ExampleGets from './components/ExampleGets'
 
 
 function App() {
@@ -69,14 +69,15 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
-            <Route exact path='/myprofile' component={Profile} />
+            <PrivateRoute exact path='/myprofile' component={Profile} />
             <Route path="/Profile" component={ItemAdd} />
             <Route path="/Editprofile" component={Editprofile} />
           </Switch>
         </div>
       </div>
 
-
+      
+      <ExampleGets/>
 
 
 

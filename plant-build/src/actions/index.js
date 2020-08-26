@@ -8,7 +8,7 @@ export const GET_PLANTS_SUCCESS = 'GET_PLANTS_SUCCESS';
 
 export const fetchAllPlants = () => dispatch => {
     dispatch({ type: FETCHING_START});
-
+    
     axiosWithAuth()
     .get(`/plants`)
     .then(res => {
@@ -27,18 +27,18 @@ export const POST_REG_SUCCESS = 'POST_REG_SUCCESS';
 export const postRegister = (credentials) => dispatch => {
     dispatch({ type: FETCHING_START});
 
+    return (
     axiosWithAuth()
     .post('/auth/register', credentials)
     .then(res => {
         console.log('postRegister *success*', res);
-        localStorage.setItem('authToken', res.data.jwt);
         dispatch({type: POST_REG_SUCCESS, payload: res.data});
     })
     .catch(err => {
         console.error('postRegister *error*', err);
-        localStorage.removeItem('authToken');
         dispatch({type: FETCHING_ERROR, payload: err.message})
-    });
+    })
+    )
 };
 
 // logs in a valid user with username and password
@@ -47,19 +47,37 @@ export const POST_LOG_SUCCESS = 'POST_LOG_SUCCESS';
 export const postLogin = (credentials) => dispatch => {
     dispatch({type: FETCHING_START});
 
+    return (
     axiosWithAuth()
-    .post('/auth/login', credentials)
+    .post('auth/login', credentials)
     .then(res => {
         console.log('postLogin *success*', res);
-        localStorage.setItem('authToken', res.data.jwt);
         dispatch({type: POST_LOG_SUCCESS, payload: res.data});
     })
     .catch(err => {
         console.error('postLogin *error*', err);
-        localStorage.removeItem('authToken');
         dispatch({type: FETCHING_ERROR, payload: err.message});
-    });
+    })
+    )
 };
+
+// gets a list of users
+export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS';
+
+export const getUsers = () => dispatch => {
+    dispatch({type: FETCHING_START});
+
+    axiosWithAuth()
+    .get('/users')
+    .then(res => {
+        console.log('getUsers *success*', res);
+        dispatch({type: GET_USERS_SUCCESS, payload: res.data});
+    })
+    .catch(err => {
+        console.error('getUsers *error*', err);
+        dispatch({type: FETCHING_ERROR, payload: err.message});
+    })
+}
 
 // user can update their password and phone number by their user id
 export const PUT_USER_SUCCESS = 'PUT_USER_SUCCESS';
