@@ -3,31 +3,35 @@ import { connect } from 'react-redux';
 import { postRegister } from  '../actions'
 
 class SignUp extends Component {
-    state = {
-        credentials: {
-            username: '',
-            // email: '',
-            password: '',
-            phonenumber: ''
-        },
-    };
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            credentials: {
+                username: '',
+                // email: '',
+                password: '',
+                phonenumber: ''
+            },
+        };
+
+        this.handleChanges = this.handleChanges.bind(this);
+        this.signUpSubmit = this.signUpSubmit.bind(this);
+    }
+    
 
     handleChanges = e => {
-        this.setState({
-            credentials: {
-                ...this.state.credentials,
-                [e.target.name]: e.target.value
-            }
-        })
+        this.setState({ credentials: {...this.state.credentials, [e.target.name]: e.target.value}})
+        console.log(e.target.value);
     }
 
     signUpSubmit = e => {
         e.preventDefault();
         this.props.postRegister(this.state.credentials)
-        .then(res => {
-            this.props.history.push('/myprofile');
-            this.setState({credentials: {username:'', password:'', phonenumber:''}})
-        })
+        // .then(res => {
+        //     this.props.history.push('/myprofile');
+        //     this.setState({credentials: {username:'', password:'', phonenumber:''}})
+        // })
     };
 
     render() {
@@ -39,7 +43,8 @@ class SignUp extends Component {
                     <label>Username</label>
                     <input 
                     name='username'
-                    value={this.state.username}
+                    onChange={this.handleChanges}
+                    value={this.state.credentials.username}
                     type="text" 
                     className="form-control" 
                     placeholder="Username" />
@@ -59,8 +64,9 @@ class SignUp extends Component {
                 <div className="form-group">
                     <label>Phone</label>
                     <input 
-                    name='phoneNumber'
-                    value={this.state.phonenumber}
+                    name='phonenumber'
+                    onChange={this.handleChanges}
+                    value={this.state.credentials.phonenumber}
                     type="text" 
                     className="form-control" 
                     placeholder="Phone" />
@@ -71,7 +77,8 @@ class SignUp extends Component {
                     <input 
                     type="password"
                     name='password'
-                    value={this.state.password}
+                    onChange={this.handleChanges}
+                    value={this.state.credentials.password}
                     className="form-control" 
                     placeholder="Password" />
                 </div>
