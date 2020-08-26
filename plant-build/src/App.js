@@ -9,6 +9,8 @@ import Editprofile from "./components/Editprofile";
 import ItemAdd from "./components/ItemAdd";
 import Profile from "./components/Plants";
 
+import PrivateRoute from './utils/PrivateRoute';
+
 
 
 function App() {

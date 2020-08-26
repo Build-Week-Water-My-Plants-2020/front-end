@@ -1,31 +1,28 @@
 import React, { useState } from "react";
-import { axiosWithAuth } from '../utils/axiosWithAuth';
+import { connect } from 'react-redux';
+import { postLogin } from '../actions'
 
 const Login = props => {
 
     const [credentials, setCredentials] = useState(
-        {Username:'', password: ''}
+        {username:'', password: ''}
     );
     const [error, setError] = useState(false);
 
     const handleChanges = e => {
         setCredentials({...credentials, [e.target.name]: e.target.value});
-        console.log('login.js: handleChanges:', e.target.value);
+        // console.log('login.js: handleChanges:', e.target.value);
     };
 
     const loginSubmit = e => {
         e.preventDefault();
-        axiosWithAuth()
-        .post('/login', credentials)
+        props.postLogin(credentials)
         .then(res => {
-            console.log('login.js: loginSubmit: axios.post: *success*', res);
-            localStorage.setItem('authToken', res.data.payload);
-            props.history.push('/protected');
+            props.history.push('/myprofile');
             setError(false);
+            setCredentials({username:'', password:''})
         })
         .catch(err => {
-            console.error('login.js: loginSubmit: axios.post: *failure*', err);
-            localStorage.removeItem('authToken');
             setError(true);
         });
     };
@@ -41,7 +38,7 @@ const Login = props => {
                 type="text" 
                 className="form-control" 
                 placeholder="Enter Username" 
-                value={credentials.Username}
+                value={credentials.username}
                 onChange={handleChanges}/>
             </div>
 
@@ -51,7 +48,7 @@ const Login = props => {
                 name='password'
                 type="password" 
                 className="form-control" 
-                placeholder="Enter password" 
+                placeholder="Password" 
                 value={credentials.password}
                 onChange={handleChanges}/>
             </div>
@@ -72,4 +69,4 @@ const Login = props => {
     );
 }
 
-export default Login;
+export default connect(null, {postLogin})(Login)
