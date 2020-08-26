@@ -1,6 +1,7 @@
 import {
     FETCHING_START, FETCHING_ERROR, 
     GET_PLANTS_SUCCESS, GET_PLANT_SUCCESS, GET_USERS_PLANTS_SUCCESS,
+    GET_USERS_SUCCESS,
     POST_REG_SUCCESS, POST_LOG_SUCCESS, POST_PLANT_SUCCESS,
     PUT_USER_SUCCESS, PUT_PLANT_SUCCESS, 
     DELETE_PLANT_SUCCESS
@@ -11,11 +12,7 @@ const initialState = {
     error: '',
     plants: [],
     plant: {},
-    users: [
-        {username:'Example User',
-        phonenumber: '0000000000',
-        password: 'password'}
-    ]
+    users: []
 }
 
 export const reducer = (state = initialState, action) => {
@@ -38,7 +35,7 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 error: '',
-                plants: action.payload
+                plants: [...state.plants, action.payload]
             }
 
         case GET_PLANT_SUCCESS: 
@@ -56,6 +53,29 @@ export const reducer = (state = initialState, action) => {
             error: '',
             plants: [...state.plants, action.payload]
         }
+
+        case PUT_PLANT_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                error: '',
+                plants: [...state.plants.map(plant => {
+                    if (plant.id === action.payload.id) {
+                        return action.payload;
+                    };
+                    return plant;
+                })]
+            };
+        };
+
+        case DELETE_PLANT_SUCCESS: {
+            return {
+                ...state,
+                isLoading: false,
+                error: '',
+                plant: [...state.plants.filter(plant => plant.id !== action.payload)]
+            }
+        }
         
         case POST_REG_SUCCESS:
             return {
@@ -63,6 +83,14 @@ export const reducer = (state = initialState, action) => {
                 isLoading: false,
                 error: '',
                 users: [...state.users, action.payload]
+            }
+
+        case GET_USERS_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                error: '',
+                users: [action.payload]
             }
 
         case POST_LOG_SUCCESS:
@@ -85,9 +113,6 @@ export const reducer = (state = initialState, action) => {
                 })]
             };
         };
-        
-     
-
-        
+        default: return state
     }
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from 'react-redux';
-import { postLogin } from '../actions'
+import { postLogin, getUsers, fetchAllPlants } from '../actions'
 
 const Login = props => {
 
@@ -17,17 +17,20 @@ const Login = props => {
     const loginSubmit = e => {
         e.preventDefault();
         props.postLogin(credentials)
-        // .then(res => {
-        //     props.history.push('/myprofile');
-        //     setError(false);
-        //     setCredentials({username:'', password:''})
-        // })
-        // .catch(err => {
-        //     setError(true);
-        // });
+        .then(res => {
+            localStorage.setItem('authToken', res.data.token);
+            props.history.push('/myprofile');
+            setError(false);
+            setCredentials({username:'', password:''})
+        })
+        .catch(err => {
+            localStorage.removeItem('authToken');
+            setError(true);
+        });
     };
 
     return (
+        <div>
         <form onSubmit={loginSubmit}>
             <h3>LogIn</h3>
 
@@ -66,7 +69,9 @@ const Login = props => {
             </p>
             {error ? <p className='error-login'>Wrong Username or password - Please Try again.</p> : null}
         </form>
+
+        </div>
     );
 }
 
-export default connect(null, {postLogin})(Login)
+export default connect(null, {postLogin, getUsers, fetchAllPlants})(Login)

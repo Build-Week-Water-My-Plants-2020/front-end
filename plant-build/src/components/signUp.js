@@ -22,16 +22,18 @@ class SignUp extends Component {
 
     handleChanges = e => {
         this.setState({ credentials: {...this.state.credentials, [e.target.name]: e.target.value}})
-        console.log(e.target.value);
+        // console.log(e.target.value);
     }
 
     signUpSubmit = e => {
         e.preventDefault();
         this.props.postRegister(this.state.credentials)
-        // .then(res => {
-        //     this.props.history.push('/myprofile');
-        //     this.setState({credentials: {username:'', password:'', phonenumber:''}})
-        // })
+        .then(res => {
+            localStorage.setItem('authToken', res.data.token);
+            this.props.history.push('/myprofile');
+            this.setState({credentials: {username:'', password:'', phonenumber:''}})
+        })
+        .catch(err => localStorage.removeItem('authToken'))
     };
 
     render() {
