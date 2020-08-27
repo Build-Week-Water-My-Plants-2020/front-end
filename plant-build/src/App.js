@@ -8,15 +8,24 @@ import SignUp from "./components/signUp";
 import Editprofile from "./components/Editprofile";
 import ItemAdd from "./components/ItemAdd";
 import Profile from "./components/Plants";
+import MyPlants from "./components/MyPlants";
 
 import PrivateRoute from './utils/PrivateRoute';
-import ExampleGets from './components/ExampleGets'
+
 import Data from './components/Data'
 import NoteForm from "./components/AddPlantForm";
 import Notes from "./components/AddPlant";
 
 
 function App() {
+  const logout = () => {
+    localStorage.clear();
+    console.log('user logged out');
+  }
+
+  const [user, setUser] = useState({});
+  const [plants, setPlants] = useState([]);
+  // const [frequency, setFrequency] = useState({});
 
   const [notes, setNotes] = useState([
     {
@@ -37,9 +46,6 @@ function App() {
     setNotes([...notes, newNote]);
   };
 
-
-
-
   const [notes1, setNotes1] = useState([
     {
       nickname: '',
@@ -47,9 +53,6 @@ function App() {
       h2ofrequency: ''
     }
   ]);
-
-
-
   
   return (<Router>
     <div className="App">
@@ -65,6 +68,9 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
               </li>
+              <li className="nav-item">
+              <Link className="nav-link" to={"/sign-in"} onClick={logout}>Logout</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -74,7 +80,9 @@ function App() {
         <div className="auth-inner">
           <Switch>
             <Route exact path='/' component={Login} />
-            <Route path="/sign-in" component={Login} />
+            <Route path="/sign-in" render={props => {
+            return <Login {...props} setUser={setUser}/>
+          }}/>
             <Route path="/sign-up" component={SignUp} />
           </Switch>
         </div>
@@ -101,10 +109,16 @@ function App() {
                 <Link className="nav-link" to={"/Editprofile"}>Edit Profile</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/myprofile"}>My Profile</Link>
+                <Link className="nav-link" to={"/myprofile"}>My Plant</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/my-profile"}>My Profile</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/profile"}>Profile</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/MyPlants"}>My Plants</Link>
               </li>
             </ul>
           </div>
@@ -114,20 +128,14 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
+            <PrivateRoute exact path='/my-profile' user={user} component={Profile} />
+            <PrivateRoute exact path="/Editprofile" component={Editprofile} />
+            <PrivateRoute exact path="/MyPlants" plants={plants} setPlants={setPlants} user={user} component={MyPlants} />
             <PrivateRoute exact path='/myprofile' component={addNewNote} />
             <Route path="/Profile" component={ItemAdd} />
-            <Route path="/Editprofile" component={Editprofile} />
           </Switch>
         </div>
       </div>
-
-      
-      <ExampleGets/>
-
-
-
-
-
     </div>
     </Router>
   );

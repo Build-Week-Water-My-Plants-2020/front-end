@@ -4,7 +4,7 @@ import {
     GET_USERS_SUCCESS,
     POST_REG_SUCCESS, POST_LOG_SUCCESS, POST_PLANT_SUCCESS,
     PUT_USER_SUCCESS, PUT_PLANT_SUCCESS, 
-    DELETE_PLANT_SUCCESS
+    DELETE_PLANT_SUCCESS, USER_CRED
 } from '../actions'
 
 const initialState = {
@@ -82,6 +82,12 @@ export const reducer = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 error: '',
+                // users: [...state.users, action.payload]
+            }
+
+        case USER_CRED:
+            return {
+                ...state,
                 users: [...state.users, action.payload]
             }
 
