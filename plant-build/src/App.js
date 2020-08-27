@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -11,15 +11,49 @@ import Profile from "./components/Plants";
 
 import PrivateRoute from './utils/PrivateRoute';
 import ExampleGets from './components/ExampleGets'
+import Data from './components/Data'
+import NoteForm from "./components/AddPlantForm";
+import Notes from "./components/AddPlant";
 
 
 function App() {
 
-  
+  const [notes, setNotes] = useState([
+    {
+      nickname: 1,
+      Species: "Bogenvilla",
+      h2ofrequency:
+        "This is the H20 Frequency"
+    }
+  ]);
+
+
+  const addNewNote = (note) => {
+    const newNote = {
+      id: Date.now(),
+      title: note.title,
+      body: note.body
+    };
+    setNotes([...notes, newNote]);
+  };
+
+
+
+
+  const [notes1, setNotes1] = useState([
+    {
+      nickname: '',
+      Species: '',
+      h2ofrequency: ''
+    }
+  ]);
+
+
 
   
   return (<Router>
     <div className="App">
+    
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
           <Link className="navbar-brand" to={"/sign-in"}>WATER MY PLANTS</Link>
@@ -48,6 +82,17 @@ function App() {
 
 
 
+      <div className="auth-wrapper2">
+        <div className="auth-inner2">
+        <h1>My Plants</h1>
+      <NoteForm addNewNote={addNewNote} title="Default title" />
+      <Notes notes={notes} />
+        </div>
+      </div>
+  
+
+
+
       <nav className="profile">
         <div className="container1">
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -69,7 +114,7 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
-            <PrivateRoute exact path='/myprofile' component={Profile} />
+            <PrivateRoute exact path='/myprofile' component={addNewNote} />
             <Route path="/Profile" component={ItemAdd} />
             <Route path="/Editprofile" component={Editprofile} />
           </Switch>
