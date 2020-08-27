@@ -12,6 +12,9 @@ import MyPlants from "./components/MyPlants";
 
 import PrivateRoute from './utils/PrivateRoute';
 
+import Data from './components/Data'
+import NoteForm from "./components/AddPlantForm";
+import Notes from "./components/AddPlant";
 
 
 function App() {
@@ -19,9 +22,36 @@ function App() {
   const [user, setUser] = useState({});
   const [plants, setPlants] = useState([]);
 
+  const [notes, setNotes] = useState([
+    {
+      nickname: 1,
+      Species: "Bogenvilla",
+      h2ofrequency:
+        "This is the H20 Frequency"
+    }
+  ]);
+
+
+  const addNewNote = (note) => {
+    const newNote = {
+      id: Date.now(),
+      title: note.title,
+      body: note.body
+    };
+    setNotes([...notes, newNote]);
+  };
+
+  const [notes1, setNotes1] = useState([
+    {
+      nickname: '',
+      Species: '',
+      h2ofrequency: ''
+    }
+  ]);
   
   return (<Router>
     <div className="App">
+    
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
           <Link className="navbar-brand" to={"/sign-in"}>WATER MY PLANTS</Link>
@@ -52,6 +82,17 @@ function App() {
 
 
 
+      <div className="auth-wrapper2">
+        <div className="auth-inner2">
+        <h1>My Plants</h1>
+      <NoteForm addNewNote={addNewNote} title="Default title" />
+      <Notes notes={notes} />
+        </div>
+      </div>
+  
+
+
+
       <nav className="profile">
         <div className="container1">
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -79,11 +120,11 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
-            <PrivateRoute exact path='/myprofile' />
             <PrivateRoute exact path='/my-profile' user={user} component={Profile} />
-            <PrivateRoute exact path="/Profile" component={ItemAdd} />
             <PrivateRoute exact path="/Editprofile" component={Editprofile} />
             <PrivateRoute exact path="/MyPlants" plants={plants} setPlants={setPlants} user={user} component={MyPlants} />
+            <PrivateRoute exact path='/myprofile' component={addNewNote} />
+            <Route path="/Profile" component={ItemAdd} />
           </Switch>
         </div>
       </div>

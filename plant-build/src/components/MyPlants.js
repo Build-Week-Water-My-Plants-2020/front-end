@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import EditPlant from './EditPlant';
-import AddPlant from './AddPlant';
+import AddPlant from './AddingPlant';
 
 const MyPlants = props => {
     const [allPlants, setAllPlants] = useState([]);

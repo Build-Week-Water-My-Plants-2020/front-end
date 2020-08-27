@@ -27,7 +27,7 @@ const Login = props => {
             setCredentials({...credentials, id: res.data.user.id, phonenumber: res.data.user.phonenumber});
             props.setUser(credentials);
             console.log('login localStorage', localStorage);
-            props.history.push("/myprofile");
+            props.history.push("/my-profile");
             console.log('user info', credentials);
             console.log("loginSubmit *success*", res);
         })

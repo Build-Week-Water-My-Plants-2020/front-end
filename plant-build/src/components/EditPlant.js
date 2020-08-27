@@ -81,7 +81,7 @@ const EditPlant = props => {
                 onChange={handleEditChanges} 
                 />
                 </div>
-                <button onClick={() => deletePlant()}>DELETE</button>
+                <button style={{marginTop: '10px'}}className="btn btn-primary btn-block" onClick={() => deletePlant()}>DELETE</button>
                 <button type="submit" className="btn btn-primary btn-block">Submit</button>
                 
             </form>
