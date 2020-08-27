@@ -1,37 +1,46 @@
 import React, { useState } from "react";
-import { connect } from 'react-redux';
-import { postLogin, getUsers, fetchAllPlants } from '../actions'
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+
 
 const Login = props => {
+    const [credentials, setCredentials] = useState({
+        id: 1,
+        username: "",
+        password: "",
+        phonenumber: ""
+    });
 
-    const [credentials, setCredentials] = useState(
-        {username:'', password: ''}
-    );
+    // const [userId, setUserId] = useState(123);
     const [error, setError] = useState(false);
 
     const handleChanges = e => {
-        setCredentials({...credentials, [e.target.name]: e.target.value});
-        // console.log('login.js: handleChanges:', e.target.value);
+        setCredentials({ ...credentials, [e.target.name]: e.target.value});
     };
 
     const loginSubmit = e => {
-        e.preventDefault();
-        props.postLogin(credentials)
-        .then(res => {
-            localStorage.setItem('authToken', res.data.token);
-            props.history.push('/myprofile');
+        e.preventDefault()
+        axiosWithAuth()
+        .post("/auth/login", credentials)
+        .then((res) => {
+            localStorage.setItem("authToken", res.data.jwt);
             setError(false);
-            setCredentials({username:'', password:''})
+            setCredentials({...credentials, id: res.data.user.id, phonenumber: res.data.user.phonenumber});
+            props.setUser(credentials);
+            console.log('login localStorage', localStorage);
+            props.history.push("/myprofile");
+            console.log('user info', credentials);
+            console.log("loginSubmit *success*", res);
         })
-        .catch(err => {
-            localStorage.removeItem('authToken');
+        .catch((err) => {
+            localStorage.removeItem("authToken");
             setError(true);
+            console.log("loginSubmit *failure*", err);
         });
     };
-
-    return (
-        <div>
-        <form onSubmit={loginSubmit}>
+ 
+ 
+        return (
+            <form onSubmit={loginSubmit}>
             <h3>LogIn</h3>
 
             <div className="form-group">
@@ -70,8 +79,7 @@ const Login = props => {
             {error ? <p className='error-login'>Wrong Username or password - Please Try again.</p> : null}
         </form>
 
-        </div>
-    );
+        )
 }
 
-export default connect(null, {postLogin, getUsers, fetchAllPlants})(Login)
+export default Login;

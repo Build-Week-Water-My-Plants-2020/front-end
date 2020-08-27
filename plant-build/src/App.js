@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -8,14 +8,16 @@ import SignUp from "./components/signUp";
 import Editprofile from "./components/Editprofile";
 import ItemAdd from "./components/ItemAdd";
 import Profile from "./components/Plants";
+import MyPlants from "./components/MyPlants";
 
 import PrivateRoute from './utils/PrivateRoute';
-import ExampleGets from './components/ExampleGets'
+
 
 
 function App() {
 
-  
+  const [user, setUser] = useState({});
+  const [plants, setPlants] = useState([]);
 
   
   return (<Router>
@@ -40,7 +42,9 @@ function App() {
         <div className="auth-inner">
           <Switch>
             <Route exact path='/' component={Login} />
-            <Route path="/sign-in" component={Login} />
+            <Route path="/sign-in" render={props => {
+            return <Login {...props} setUser={setUser}/>
+          }}/>
             <Route path="/sign-up" component={SignUp} />
           </Switch>
         </div>
@@ -61,6 +65,9 @@ function App() {
               <li className="nav-item">
                 <Link className="nav-link" to={"/profile"}>Profile</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/MyPlants"}>My Plants</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -69,20 +76,13 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
-            <PrivateRoute exact path='/myprofile' component={Profile} />
-            <Route path="/Profile" component={ItemAdd} />
-            <Route path="/Editprofile" component={Editprofile} />
+            <PrivateRoute exact path='/myprofile' user={user} component={Profile} />
+            <Route exact path="/Profile" component={ItemAdd} />
+            <Route exact path="/Editprofile" component={Editprofile} />
+            <PrivateRoute exact path="/MyPlants" plants={plants} setPlants={setPlants} user={user} component={MyPlants} />
           </Switch>
         </div>
       </div>
-
-      
-      <ExampleGets/>
-
-
-
-
-
     </div>
     </Router>
   );
