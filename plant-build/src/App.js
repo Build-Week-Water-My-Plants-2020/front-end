@@ -60,7 +60,10 @@ function App() {
                 <Link className="nav-link" to={"/Editprofile"}>Edit Profile</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={"/myprofile"}>My Profile</Link>
+                <Link className="nav-link" to={"/myprofile"}>My Plant</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to={"/my-profile"}>My Profile</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/profile"}>Profile</Link>
@@ -76,9 +79,10 @@ function App() {
       <div className="auth-wrapper1">
         <div className="auth-inner1">
           <Switch>
-            <PrivateRoute exact path='/myprofile' user={user} component={Profile} />
-            <Route exact path="/Profile" component={ItemAdd} />
-            <Route exact path="/Editprofile" component={Editprofile} />
+            <PrivateRoute exact path='/myprofile' />
+            <PrivateRoute exact path='/my-profile' user={user} component={Profile} />
+            <PrivateRoute exact path="/Profile" component={ItemAdd} />
+            <PrivateRoute exact path="/Editprofile" component={Editprofile} />
             <PrivateRoute exact path="/MyPlants" plants={plants} setPlants={setPlants} user={user} component={MyPlants} />
           </Switch>
         </div>
