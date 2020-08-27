@@ -48,13 +48,18 @@ const AddPlant = props => {
             />
             </div>
             <div>
-            <label>Watering frequency (X times a week)</label>
+            <div>
+                    <label>Watering frequency</label>
+                    </div>
             <input
             name='h2ofrequency'
+            type='number'
+            id='watering'
             className='form-control'
             value={addPlant.h2ofrequency}
             onChange={handleAddChanges} 
             />
+            <label className='inline-label'>times a week</label>
             </div>
 
             <button type="submit" className="btn btn-primary btn-block">Submit</button>
@@ -64,4 +69,3 @@ const AddPlant = props => {
 };
 
 export default AddPlant;
-

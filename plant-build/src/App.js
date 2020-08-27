@@ -18,9 +18,14 @@ import Notes from "./components/AddPlant";
 
 
 function App() {
+  const logout = () => {
+    localStorage.clear();
+    console.log('user logged out');
+  }
 
   const [user, setUser] = useState({});
   const [plants, setPlants] = useState([]);
+  // const [frequency, setFrequency] = useState({});
 
   const [notes, setNotes] = useState([
     {
@@ -62,6 +67,9 @@ function App() {
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to={"/sign-up"}>Sign up</Link>
+              </li>
+              <li className="nav-item">
+              <Link className="nav-link" to={"/sign-in"} onClick={logout}>Logout</Link>
               </li>
             </ul>
           </div>

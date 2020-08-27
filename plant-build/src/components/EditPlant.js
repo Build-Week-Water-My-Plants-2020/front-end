@@ -73,13 +73,18 @@ const EditPlant = props => {
                 />
                 </div>
                 <div>
-                <label>Watering frequency (X times a week)</label>
+                    <div>
+                    <label>Watering frequency</label>
+                    </div>
                 <input
+                type='number'
                 name='h2ofrequency'
-                className='form-control'
+                className='form-control '
+                id='watering'
                 value={editPlant.h2ofrequency}
                 onChange={handleEditChanges} 
                 />
+                <label className='inline-label'>times a week</label>
                 </div>
                 <button style={{marginTop: '10px'}}className="btn btn-primary btn-block" onClick={() => deletePlant()}>DELETE</button>
                 <button type="submit" className="btn btn-primary btn-block">Submit</button>

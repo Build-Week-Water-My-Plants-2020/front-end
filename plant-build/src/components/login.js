@@ -24,7 +24,9 @@ const Login = props => {
         .then((res) => {
             localStorage.setItem("authToken", res.data.jwt);
             setError(false);
-            setCredentials({...credentials, id: res.data.user.id, phonenumber: res.data.user.phonenumber});
+            setCredentials({...credentials, 
+                id: res.data.user.id, 
+                phonenumber: res.data.user.phonenumber});
             props.setUser(credentials);
             console.log('login localStorage', localStorage);
             props.history.push("/my-profile");

@@ -43,8 +43,7 @@ const MyPlants = props => {
             {allPlants.length ? allPlants.map(plant => {
                 return(
                     <div key={plant.id}>
-                        <span>
-                            <i className="fas fa-ellipsis-h" 
+                        <i className="fas fa-ellipsis-h" 
                             onClick={() => {
                                 setEdit(true); 
                                 editingPlant(plant.id);
@@ -52,7 +51,6 @@ const MyPlants = props => {
                             <h1>{plant.nickname}</h1>
                             <p> Species: {plant.species}</p>
                             <p> Frequency: {plant.h2ofrequency}</p>
-                        </span>
                     </div>
                 )
             }) : null}
