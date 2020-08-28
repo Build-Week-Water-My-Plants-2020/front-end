@@ -176,3 +176,7 @@ h1 {
   background-image: linear-gradient(to right, rgba(34, 35, 58, 0.2), white , rgba(34, 35, 58, 0.2));
   text-align: center;
 }
+
+.Photos {
+  background-image: linear-gradient(to right, white , rgba(34, 35, 58, 0.2));
+}
