@@ -1,17 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect, useContext } from 'react';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import EditPlant from './EditPlant';
 import AddPlant from './AddingPlant';
+import {PlantContext} from '../context/PlantContext'
+// import {UserContext} from '../context/UserContext'
 
 const MyPlants = props => {
-    const [allPlants, setAllPlants] = useState([]);
-    const [edit, setEdit] = useState({isEditing: false, plant: {
-        id: 1,
-        user_id: 1,
-        nickname: 'nickname',
-        species: 'species',
-        h2ofrequency: ''
-    }});
+    const {allPlants, setAllPlants, edit, setEdit} = useContext(PlantContext);
+    // const { setUserId } = useContext(UserContext);
 
     const getPlants = () => {
         axiosWithAuth()
@@ -22,7 +18,6 @@ const MyPlants = props => {
           })
         .catch(err => {
           console.error('getPlants *error*', err)
-          
         })
     };
 
@@ -37,8 +32,8 @@ const MyPlants = props => {
 
     return (
         <div>
-            <EditPlant getPlants={getPlants} edit={edit} setEdit={setEdit}/>
-            <AddPlant getPlants={getPlants} user={props.user} />
+            <EditPlant getPlants={getPlants} />
+            <AddPlant getPlants={getPlants} />
             <div>
             {allPlants.length ? allPlants.map(plant => {
                 return(
@@ -47,6 +42,7 @@ const MyPlants = props => {
                             onClick={() => {
                                 setEdit(true); 
                                 editingPlant(plant.id);
+                                // setUserId(plant.user_id);
                                 }}></i>
                             <h1>{plant.nickname}</h1>
                             <p> Species: {plant.species}</p>

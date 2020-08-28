@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { PlantContext } from '../context/PlantContext';
+// import { UserContext } from '../context/UserContext';
 
 const EditPlant = props => {
-    console.log('EditPlant props: ', props);
+    const {edit, setEdit} = useContext(PlantContext);
     const [editPlant, setEditPlant] = useState({
         id: 1,
         plantId: 1,
@@ -13,8 +15,8 @@ const EditPlant = props => {
     console.log('Edit Plant: ', editPlant);
 
     useEffect(() => {
-       setEditPlant(props.edit.plant); 
-    }, [props.edit]);
+       setEditPlant(edit.plant); 
+    }, [edit]);
 
     const handleEditChanges = e => {
         setEditPlant({ ...editPlant, [e.target.name]: e.target.value});
@@ -23,31 +25,31 @@ const EditPlant = props => {
     const putPlants = (e) => {
         e.preventDefault();
         axiosWithAuth()
-        .put(`/plants/${props.edit.plant.id}`, editPlant)
+        .put(`/plants/${edit.plant.id}`, editPlant)
         .then((res) => {
             console.log('putPlants *success*', res);
             setEditPlant(res.data);
             props.getPlants();
-            props.setEdit({...props.edit, isEditing: false});
+            setEdit({...edit, isEditing: false});
         })
         .catch(err => {
             console.error('putPlants *failure*',err);
-            props.setEdit({...props.edit, isEditing: false});
+            setEdit({...edit, isEditing: false});
         });
     };
 
     const deletePlant = () => {
         axiosWithAuth()
-        .delete(`/plants/${props.edit.plant.id}`)
+        .delete(`/plants/${edit.plant.id}`)
         .then((res) => {
             console.log('deletePlants *success*', res);
             setEditPlant(res.data);
             props.getPlants();
-            props.setEdit({...props.edit, isEditing: false});
+            setEdit({...edit, isEditing: false});
         })
         .catch(err => {
             console.error('deletePlants *failure*',err);
-            props.setEdit({...props.edit, isEditing: false});
+            setEdit({...edit, isEditing: false});
         });
     };
 

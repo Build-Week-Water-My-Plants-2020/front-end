@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import {UserContext} from '../context/UserContext';
 
-const ProfileInfo = (props) => {
-
+const ProfileInfo = () => {
+    const { user } = useContext(UserContext);
     const [profile, setProfile] = useState({
-        id: 1,
         username: '',
         password: '',
         phonenumber: ''
@@ -11,10 +11,10 @@ const ProfileInfo = (props) => {
 
     const handleChanges = e => {
         setProfile({...profile, [e.target.name]: e.target.value});
-    }
+    };
 
     useEffect(() => {
-        setProfile(props.user);
+        setProfile(user);
     }, [profile]);
 
     return (
@@ -39,7 +39,6 @@ const ProfileInfo = (props) => {
                 value={profile.phonenumber}
                 onChange={handleChanges} />
             </div>
-
 
             <div className="form-group">
                 <label>Password</label>

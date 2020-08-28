@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-
+import {UserContext} from '../context/UserContext';
 
 const Login = props => {
+    const {
+        error, setError,
+        setUser,
+    } = useContext(UserContext);
+
     const [credentials, setCredentials] = useState({
         id: 1,
         username: "",
         password: "",
         phonenumber: ""
     });
-
-    // const [userId, setUserId] = useState(123);
-    const [error, setError] = useState(false);
 
     const handleChanges = e => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value});
@@ -22,12 +24,14 @@ const Login = props => {
         axiosWithAuth()
         .post("/auth/login", credentials)
         .then((res) => {
+            // setCredentials({...credentials, 
+            //     id: res.data.user.id, 
+            //     phonenumber: res.data.user.phonenumber});
+            const {id, username, phonenumber} = res.data.user;
+            setCredentials({...credentials, id, username, phonenumber});
             localStorage.setItem("authToken", res.data.jwt);
             setError(false);
-            setCredentials({...credentials, 
-                id: res.data.user.id, 
-                phonenumber: res.data.user.phonenumber});
-            props.setUser(credentials);
+            setUser(credentials);
             console.log('login localStorage', localStorage);
             props.history.push("/my-profile");
             console.log('user info', credentials);
@@ -39,8 +43,7 @@ const Login = props => {
             console.log("loginSubmit *failure*", err);
         });
     };
- 
- 
+
         return (
             <form onSubmit={loginSubmit}>
             <h3>LogIn</h3>
