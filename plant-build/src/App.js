@@ -15,6 +15,9 @@ import PrivateRoute from './utils/PrivateRoute';
 import Data from './components/Data'
 import NoteForm from "./components/AddPlantForm";
 import Notes from "./components/AddPlant";
+import Home from "./components/Home";
+import Shop from "./components/Shop";
+import Item from "./components/Item";
 
 
 function App() {
@@ -26,6 +29,8 @@ function App() {
   const [user, setUser] = useState({});
   const [plants, setPlants] = useState([]);
   // const [frequency, setFrequency] = useState({});
+
+  const [products, setProducts] = useState(Data)
 
   const [notes, setNotes] = useState([
     {
@@ -56,6 +61,12 @@ function App() {
   
   return (<Router>
     <div className="App">
+
+
+
+
+
+
     
       <nav className="navbar navbar-expand-lg navbar-light fixed-top">
         <div className="container">
@@ -136,9 +147,44 @@ function App() {
           </Switch>
         </div>
       </div>
+
+
+
+
+
+
+
+
+
+      <div className='Photos'>
+    <nav>
+        <h1 className="store-header">Choose Plants</h1>
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/Plantly">Explore</Link>
+        </div>
+      </nav>
+
+      <Switch>
+        <Route path="/Plantly" render={(props) => {
+          console.log('react router props', props)
+          return <Shop history={props.history} items={products} />
+        }} />
+        <Route path="/" component={Home} />
+      </Switch>
+      </div>
+
+
+
+
+
     </div>
     </Router>
   );
+
+
+
+  
 
 }
 

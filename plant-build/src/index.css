@@ -177,6 +177,10 @@ h1 {
   text-align: center;
 }
 
+.Photos {
+  background-image: linear-gradient(to right, white , rgba(34, 35, 58, 0.2));
+}
+
 .fa-ellipsis-h {
   position: relative;
   top: 20px;
