@@ -1,98 +1,78 @@
-import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { postRegister } from  '../actions'
+import React, { useState } from "react";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-class SignUp extends Component {
-    constructor(props) {
-        super(props);
+const SignUp = props => {
+    const [credentials, setCredentials] = useState({
+        username: "",
+        password: "",
+        phonenumber: ""
+    });
 
-        this.state = {
-            credentials: {
-                username: '',
-                // email: '',
-                password: '',
-                phonenumber: ''
-            },
-        };
-
-        this.handleChanges = this.handleChanges.bind(this);
-        this.signUpSubmit = this.signUpSubmit.bind(this);
-    }
-    
-
-    handleChanges = e => {
-        this.setState({ credentials: {...this.state.credentials, [e.target.name]: e.target.value}})
-        // console.log(e.target.value);
-    }
-
-    signUpSubmit = e => {
-        e.preventDefault();
-        this.props.postRegister(this.state.credentials)
-        .then(res => {
-            localStorage.setItem('authToken', res.data.token);
-            this.props.history.push('/myprofile');
-            this.setState({credentials: {username:'', password:'', phonenumber:''}})
-        })
-        .catch(err => localStorage.removeItem('authToken'))
+    const handleChanges = e => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value});
+        // console.log("e.target.value", e.target.value)
     };
 
-    render() {
+    const signUpSubmit = e => {
+        e.preventDefault()
+        axiosWithAuth()
+        .post("/auth/register", credentials)
+        .then((res) => {
+            console.log("signup *success*", res);
+            localStorage.setItem("authToken", res.data.token);
+            console.log('signUp localStorage',localStorage)
+            props.history.push("/login");
+        })
+        .catch((err) => {
+            console.log("signup *failure*", err)
+            localStorage.removeItem("authToken");
+        });
+    };
+ 
         return (
-            <form onSubmit={this.signUpSubmit}>
-                <h3>Sign Up</h3>
+            <div className="login">
+               <form onSubmit={signUpSubmit}>
+                    <h3>Sign Up</h3>
 
-                <div className="form-group">
-                    <label>Username</label>
-                    <input 
-                    name='username'
-                    onChange={this.handleChanges}
-                    value={this.state.credentials.username}
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Username" />
-                </div>
+                    <div className="form-group">
+                        <label>Username</label>
+                        <input 
+                        name="username"
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Username" 
+                        value={credentials.username}
+                        onChange={handleChanges}/>
+                    </div>
 
-                {/* <div className="form-group">
-                    <label>Email</label>
-                    <input 
-                    name='email'
-                    value={this.state.email}
-                    type="email" 
-                    className="form-control" 
-                    placeholder="Enter email" 
-                    />
-                </div> */}
+                    <div className="form-group">
+                        <label>Phone number</label>
+                        <input 
+                        name="phonenumber"
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Phone number" 
+                        value={credentials.phonenumber}
+                        onChange={handleChanges}/>
+                    </div>
 
-                <div className="form-group">
-                    <label>Phone</label>
-                    <input 
-                    name='phonenumber'
-                    onChange={this.handleChanges}
-                    value={this.state.credentials.phonenumber}
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Phone" />
-                </div>
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input 
+                        name='password'
+                        type="password" 
+                        className="form-control" 
+                        placeholder="Password" 
+                        value={credentials.password}
+                        onChange={handleChanges}/>
+                    </div>
 
-                <div className="form-group">
-                    <label>Password</label>
-                    <input 
-                    type="password"
-                    name='password'
-                    onChange={this.handleChanges}
-                    value={this.state.credentials.password}
-                    className="form-control" 
-                    placeholder="Password" />
-                </div>
-
-                <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-                <p className="forgot-password text-right">
-                    Already registered <a href="#">sign in?</a>
-                </p>
-            </form>
-        );
-    }
+                    <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                    
+                </form> 
+               
+            </div>
+        )   
 }
 
-
-export default connect(null, {postRegister})(SignUp)
+export default SignUp;

@@ -1,4 +1,5 @@
 import {axiosWithAuth} from '../utils/axiosWithAuth';
+import axios from 'axios';
 
 export const FETCHING_START = 'FETCHING_START';
 export const FETCHING_ERROR = 'FETCHING_ERROR';
@@ -9,7 +10,7 @@ export const GET_PLANTS_SUCCESS = 'GET_PLANTS_SUCCESS';
 export const fetchAllPlants = () => dispatch => {
     dispatch({ type: FETCHING_START});
     
-    axiosWithAuth()
+    axios
     .get(`/plants`)
     .then(res => {
         console.log('fetchAllPlants *success*', res);
@@ -20,6 +21,13 @@ export const fetchAllPlants = () => dispatch => {
         dispatch({type: FETCHING_ERROR, payload: err.message})
     });
 };
+
+// holds user information 
+export const USER_CRED = 'USER_CRED';
+
+export const userCred = (credentials) => dispatch => {
+    dispatch({type: USER_CRED, payload: credentials})
+}
 
 // create a new user with username, phone number, and password
 export const POST_REG_SUCCESS = 'POST_REG_SUCCESS';
